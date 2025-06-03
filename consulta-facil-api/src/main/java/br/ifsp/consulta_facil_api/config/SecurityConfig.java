@@ -1,6 +1,5 @@
 package br.ifsp.consulta_facil_api.config;
 
-import java.io.IOException;
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
