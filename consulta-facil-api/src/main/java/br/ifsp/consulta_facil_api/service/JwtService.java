@@ -27,7 +27,9 @@ public class JwtService {
                 .expiresAt(now.plusSeconds(expire))
                 .subject(usuario.getEmail())
                 .claim("userId", usuario.getId())
+                .claim("role", usuario.getRole().name())  // <-- adiciona o papel aqui
                 .build();
+
     
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }

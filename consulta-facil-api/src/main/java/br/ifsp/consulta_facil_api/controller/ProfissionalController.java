@@ -5,6 +5,7 @@ import br.ifsp.consulta_facil_api.service.ProfissionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,7 +17,8 @@ public class ProfissionalController {
     private ProfissionalService profissionalService;
 
     @GetMapping
-    public Page<ProfissionalDTO> listarTodas(Pageable pageable) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public Page<ProfissionalDTO> listarProfissionais(Pageable pageable) {
         return profissionalService.listar(pageable);
     }
 
@@ -26,12 +28,21 @@ public class ProfissionalController {
             .orElseThrow(() -> new RuntimeException("Profissional não encontrado"));
     }
 
+    
     @PostMapping
     public ProfissionalDTO criar(@RequestBody ProfissionalDTO obj) {
         return profissionalService.salvar(obj);
     }
+    
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ProfissionalDTO atualizarProfissional(@PathVariable Long id, @RequestBody ProfissionalDTO dto) {
+        return profissionalService.atualizarProfissional(id, dto);
+    }
 
+    
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deletar(@PathVariable Long id) {
         profissionalService.deletar(id);
     }

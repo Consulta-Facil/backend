@@ -13,6 +13,7 @@ import br.ifsp.consulta_facil_api.model.Consulta;
 public interface ConsultaRepository extends JpaRepository<Consulta, Long>, PagingAndSortingRepository<Consulta, Long> {
 	Page<Consulta> findByPacienteId(Long pacienteId, Pageable pageable);
     Page<Consulta> findByProfissionalId(Long profissionalId, Pageable pageable);
-    Page<Consulta> findByDataHora(LocalDateTime inicio, Pageable pageable);
+    
+    boolean existsByProfissionalIdAndHorario(Long profissionalId, LocalDateTime horario);
 
 }

@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ConsultaDTO {
 	private Long id;
-	private LocalDateTime dataHora;
+	private LocalDateTime horario;
 	private PacienteDTO paciente;
 	private ProfissionalDTO profissional;
+	private String observacoes;
 
 	
 }

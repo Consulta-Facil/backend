@@ -13,6 +13,8 @@ public class HorarioDTO {
     private Long id;
     private LocalDateTime dataHoraInicio;
     private LocalDateTime dataHoraFim;
+    private boolean disponivel;
+    private ProfissionalDTO profissional;
 
 }
 

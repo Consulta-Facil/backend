@@ -18,7 +18,7 @@ public class Consulta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime dataHora;
+    private LocalDateTime horario;
 
     @ManyToOne
     @JoinColumn(name = "paciente_id")
@@ -27,40 +27,7 @@ public class Consulta {
     @ManyToOne
     @JoinColumn(name = "profissional_id")
     private Profissional profissional;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public LocalDateTime getDataHora() {
-		return dataHora;
-	}
-
-	public void setDataHora(LocalDateTime dataHora) {
-		this.dataHora = dataHora;
-	}
-
-	public Paciente getPaciente() {
-		return paciente;
-	}
-
-	public void setPaciente(Paciente paciente) {
-		this.paciente = paciente;
-	}
-
-	public Profissional getProfissional() {
-		return profissional;
-	}
-
-	public void setProfissional(Profissional profissional) {
-		this.profissional = profissional;
-	}
-	
-	
-	
+    
+    private String observacoes;
 	
 }

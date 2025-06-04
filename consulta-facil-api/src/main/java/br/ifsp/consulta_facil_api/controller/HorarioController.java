@@ -2,11 +2,12 @@ package br.ifsp.consulta_facil_api.controller;
 
 import br.ifsp.consulta_facil_api.dto.HorarioDTO;
 import br.ifsp.consulta_facil_api.service.HorarioService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping("/horarios")
@@ -21,18 +22,30 @@ public class HorarioController {
     }
 
     @GetMapping("/{id}")
-    HorarioDTO buscarPorId(@PathVariable Long id) {
+    public HorarioDTO buscarPorId(@PathVariable Long id) {
         return horarioService.buscarPorId(id)
-            .orElseThrow(() -> new RuntimeException("Horario não encontrado"));
+            .orElseThrow(() -> new RuntimeException("Horário não encontrado"));
     }
 
+    @PreAuthorize("hasRole('PROFISSIONAL')")
     @PostMapping
     public HorarioDTO criar(@RequestBody HorarioDTO obj) {
         return horarioService.salvar(obj);
     }
 
+    @PreAuthorize("hasRole('PROFISSIONAL')")
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id) {
         horarioService.deletar(id);
+    }
+
+    @GetMapping("/profissional/{id}")
+    public Page<HorarioDTO> listarPorProfissional(@PathVariable Long id, Pageable pageable) {
+        return horarioService.listarPorProfissional(id, pageable);
+    }
+
+    @GetMapping("/profissional/{id}/disponiveis")
+    public Page<HorarioDTO> listarDisponiveisPorProfissional(@PathVariable Long id, Pageable pageable) {
+        return horarioService.listarDisponiveisPorProfissional(id, pageable);
     }
 }

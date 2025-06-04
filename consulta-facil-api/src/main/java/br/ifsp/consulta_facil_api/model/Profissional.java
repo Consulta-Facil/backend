@@ -22,7 +22,7 @@ public class Profissional extends Usuario {
     private String cpf;
     private String telefone;
     private Integer numero;
-    private Integer rua;
+    private String rua;
     private String cidade;
     private String estado;
     private String cep;

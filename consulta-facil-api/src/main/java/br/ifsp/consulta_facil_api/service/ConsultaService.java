@@ -10,12 +10,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 public class ConsultaService {
 
-	@Autowired
+    @Autowired
     private ConsultaRepository consultaRepository;
 
     @Autowired
@@ -32,12 +33,35 @@ public class ConsultaService {
     }
 
     public ConsultaDTO salvar(ConsultaDTO dto) {
-        Consulta consulta = modelMapper.map(dto, Consulta.class);
-        consulta = consultaRepository.save(consulta);
-        return modelMapper.map(consulta, ConsultaDTO.class);
+        Consulta novaConsulta = modelMapper.map(dto, Consulta.class);
+
+        // Verificar conflito de agendamento
+        boolean conflito = consultaRepository.existsByProfissionalIdAndHorario(
+                novaConsulta.getProfissional().getId(),
+                novaConsulta.getHorario()
+        );
+
+        if (conflito) {
+            throw new RuntimeException("Já existe uma consulta agendada com este profissional neste horário.");
+        }
+
+        novaConsulta = consultaRepository.save(novaConsulta);
+        return modelMapper.map(novaConsulta, ConsultaDTO.class);
     }
 
     public void deletar(Long id) {
+        Optional<Consulta> optionalConsulta = consultaRepository.findById(id);
+
+        if (optionalConsulta.isEmpty()) {
+            throw new RuntimeException("Consulta não encontrada.");
+        }
+
+        Consulta consulta = optionalConsulta.get();
+
+        if (consulta.getHorario().isBefore(LocalDateTime.now().plusHours(24))) {
+            throw new RuntimeException("Cancelamentos só são permitidos com pelo menos 24h de antecedência.");
+        }
+
         consultaRepository.deleteById(id);
     }
 }

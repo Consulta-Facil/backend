@@ -30,6 +30,17 @@ public class PacienteService {
         return pacienteRepository.findById(id)
                 .map(paciente -> modelMapper.map(paciente, PacienteDTO.class));
     }
+    
+    public PacienteDTO atualizarDados(Long idLogado, PacienteDTO dto) {
+        Paciente existente = pacienteRepository.findById(idLogado)
+                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+
+        
+        modelMapper.map(dto, existente);
+
+        Paciente atualizado = pacienteRepository.save(existente);
+        return modelMapper.map(atualizado, PacienteDTO.class);
+    }
 
     public PacienteDTO salvar(PacienteDTO dto) {
         Paciente paciente = modelMapper.map(dto, Paciente.class);

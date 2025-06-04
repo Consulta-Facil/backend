@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -21,6 +22,37 @@ public class ProfissionalService {
 
     @Autowired
     private ModelMapper modelMapper;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+
+    public ProfissionalDTO criarProfissional(ProfissionalDTO dto) {
+
+        Profissional profissional = modelMapper.map(dto, Profissional.class);
+
+        if (dto.getSenha() != null) {
+            profissional.setSenha(passwordEncoder.encode(dto.getSenha()));
+        }
+
+        Profissional salvo = profissionalRepository.save(profissional);
+        return modelMapper.map(salvo, ProfissionalDTO.class);
+    }
+
+    public ProfissionalDTO atualizarProfissional(Long id, ProfissionalDTO dto) {
+        Profissional profissional = profissionalRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Profissional não encontrado"));
+
+        profissional.setNome(dto.getNome());
+        profissional.setEmail(dto.getEmail());
+
+        if (dto.getSenha() != null && !dto.getSenha().isBlank()) {
+            profissional.setSenha(passwordEncoder.encode(dto.getSenha()));
+        }
+
+        Profissional atualizado = profissionalRepository.save(profissional);
+        return modelMapper.map(atualizado, ProfissionalDTO.class);
+    }
 
     public Page<ProfissionalDTO> listar(Pageable pageable) {
         return profissionalRepository.findAll(pageable)

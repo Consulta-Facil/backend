@@ -19,9 +19,11 @@ public class Horario {
 
     private LocalDateTime dataHoraInicio;
     private LocalDateTime dataHoraFim;
+    
+    private boolean disponivel;
 
     @ManyToOne
     @JoinColumn(name = "profissional_id")
-    private Profissional profissional;
+    private Usuario profissional;
 	
 }

@@ -18,6 +18,11 @@ public class UsuarioAutenticado implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getRole().name()));
     }
+    
+    public Long getId() {
+        return usuario.getId();
+    }
+
 
     @Override
     public String getPassword() {
