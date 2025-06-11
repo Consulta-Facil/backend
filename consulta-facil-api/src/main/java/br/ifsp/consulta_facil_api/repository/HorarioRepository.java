@@ -20,7 +20,9 @@ public interface HorarioRepository extends JpaRepository<Horario, Long>, PagingA
 	Page<Horario> findByDataHoraInicioBetween(LocalDateTime inicio, LocalDateTime fim, Pageable pageable);
 
 	Page<Horario> findByProfissional(Profissional profissional, Pageable pageable);
-    Page<Horario> findByProfissionalAndDisponivelTrue(Profissional profissional, Pageable pageable);
+	Page<Horario> findByProfissionalIdAndDisponivelTrue(Long profissionalId, Pageable pageable);
+    
+
 
 
 }

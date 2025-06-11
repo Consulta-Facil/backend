@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Usuario{
+public class Usuario{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

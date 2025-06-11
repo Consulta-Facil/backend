@@ -11,8 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProfissionalService {
@@ -52,6 +53,14 @@ public class ProfissionalService {
 
         Profissional atualizado = profissionalRepository.save(profissional);
         return modelMapper.map(atualizado, ProfissionalDTO.class);
+    }
+    
+    public List<Profissional> listarComHorariosDisponiveis() {
+        return profissionalRepository.findAll().stream()
+            .filter(p -> p.getHorariosDisponiveis()
+                         .stream()
+                         .anyMatch(h -> !h.isDisponivel()))
+            .collect(Collectors.toList());
     }
 
     public Page<ProfissionalDTO> listar(Pageable pageable) {

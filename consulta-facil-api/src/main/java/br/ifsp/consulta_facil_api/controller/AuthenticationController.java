@@ -10,7 +10,7 @@ import br.ifsp.consulta_facil_api.dto.AuthenticationDTO;
 import br.ifsp.consulta_facil_api.service.AuthenticationService;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 

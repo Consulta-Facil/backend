@@ -58,11 +58,9 @@ public class HorarioService {
                 .map(horario -> modelMapper.map(horario, HorarioDTO.class));
     }
 
-    public Page<HorarioDTO> listarDisponiveisPorProfissional(Long profissionalId, Pageable pageable) {
-        Profissional profissional = profissionalRepository.findById(profissionalId)
-                .orElseThrow(() -> new RuntimeException("Profissional não encontrado"));
-
-        return horarioRepository.findByProfissionalAndDisponivelTrue(profissional, pageable)
-                .map(horario -> modelMapper.map(horario, HorarioDTO.class));
+    public Page<HorarioDTO> listarHorariosDisponiveis(Long profissionalId, Pageable pageable) {
+        return horarioRepository
+            .findByProfissionalIdAndDisponivelTrue(profissionalId, pageable)
+            .map(horario -> modelMapper.map(horario, HorarioDTO.class));
     }
 }

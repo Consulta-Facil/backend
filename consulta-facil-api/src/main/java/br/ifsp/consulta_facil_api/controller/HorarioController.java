@@ -44,8 +44,8 @@ public class HorarioController {
         return horarioService.listarPorProfissional(id, pageable);
     }
 
-    @GetMapping("/profissional/{id}/disponiveis")
-    public Page<HorarioDTO> listarDisponiveisPorProfissional(@PathVariable Long id, Pageable pageable) {
-        return horarioService.listarDisponiveisPorProfissional(id, pageable);
+    @GetMapping("/profissionais/{id}/horarios")
+    public Page<HorarioDTO> listarHorarios(@PathVariable Long id, Pageable pageable) {
+        return horarioService.listarHorariosDisponiveis(id, pageable);
     }
 }
