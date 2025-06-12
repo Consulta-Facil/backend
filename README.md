@@ -1,4 +1,4 @@
-# 🩺 API de Agendamento de Consultas
+# 🩺 Consulta Fácil - API de Agendamento de Consultas
 
 ## 📌 Objetivo e Público-Alvo
 
