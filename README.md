@@ -164,14 +164,4 @@ http://localhost:8080/swagger-ui.html
 
 ---
 
-## 📫 Contato
-
-Projeto acadêmico para fins de aprendizagem. Em caso de dúvidas ou sugestões:
-
-- Desenvolvedor: [Seu Nome]
-- Email: seuemail@example.com
-- GitHub: [github.com/seu-usuario](https://github.com/seu-usuario)
-
----
-
 © 2025 - Sistema de Agendamento de Consultas Médicas
