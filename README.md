@@ -164,4 +164,4 @@ http://localhost:8080/swagger-ui.html
 
 ---
 
-© 2025 - Sistema de Agendamento de Consultas Médicas
+© 2025 - Consulta Fácil - Sistema de Agendamento de Consultas Médicas
