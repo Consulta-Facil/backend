@@ -1,0 +1,261 @@
+{
+  "info": {
+    "name": "Consulta Fácil API",
+    "description": "Collection para testar a API de Agendamento de Consultas",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Autenticação",
+      "item": [
+        {
+          "name": "Registrar Paciente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao@email.com\",\n  \"senha\": \"senha123\",\n  \"papel\": \"PACIENTE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Registrar Profissional",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Dr. Maria Santos\",\n  \"email\": \"maria@email.com\",\n  \"senha\": \"senha123\",\n  \"papel\": \"PROFISSIONAL\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login Paciente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('token', response.token);",
+                  "    console.log('Token salvo:', response.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"joao@email.com\",\n  \"senha\": \"senha123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login Profissional",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('tokenProfissional', response.token);",
+                  "    console.log('Token do profissional salvo:', response.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"maria@email.com\",\n  \"senha\": \"senha123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Horários",
+      "item": [
+        {
+          "name": "Criar Horário Disponível",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenProfissional}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dataHoraInicio\": \"2024-12-20T14:00:00\",\n  \"dataHoraFim\": \"2024-12-20T15:00:00\",\n  \"disponivel\": true,\n  \"profissional\": {\n    \"id\": 2\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/horarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["horarios"]
+            }
+          }
+        },
+        {
+          "name": "Listar Horários",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/horarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["horarios"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Consultas",
+      "item": [
+        {
+          "name": "Agendar Consulta",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"horario\": \"2024-12-20T14:30:00\",\n  \"paciente\": {\n    \"id\": 1\n  },\n  \"profissional\": {\n    \"id\": 2\n  },\n  \"observacoes\": \"Primeira consulta\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/consultas",
+              "host": ["{{baseUrl}}"],
+              "path": ["consultas"]
+            }
+          }
+        },
+        {
+          "name": "Listar Consultas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/consultas",
+              "host": ["{{baseUrl}}"],
+              "path": ["consultas"]
+            }
+          }
+        },
+        {
+          "name": "Buscar Consulta por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["consultas", "1"]
+            }
+          }
+        },
+        {
+          "name": "Cancelar Consulta",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["consultas", "1"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+} 
