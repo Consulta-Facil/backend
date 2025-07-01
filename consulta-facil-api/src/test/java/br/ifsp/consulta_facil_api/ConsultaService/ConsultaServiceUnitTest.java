@@ -199,7 +199,7 @@ public class ConsultaServiceUnitTest {
             consultaService.deletar(999L);
         });
 
-        assertEquals("Consulta não encontrada.", ex.getMessage());
+        assertEquals("Consulta com ID 999 não encontrado", ex.getMessage());
         verify(consultaRepository, never()).deleteById(anyLong());
     }
 }

@@ -15,6 +15,13 @@ public class SwaggerConfig {
             .info(new Info()
                 .title("Consulta Fácil API")
                 .version("1.0")
-                .description("API para Agendamento de Consultas Médicas"));
+                .description("API para Agendamento de Consultas Médicas"))
+            .components(new Components()
+                .addSecuritySchemes("bearer-jwt", new SecurityScheme()
+                    .type(SecurityScheme.Type.HTTP)
+                    .scheme("bearer")
+                    .bearerFormat("JWT")
+                    .description("Insira o token JWT obtido através do endpoint de autenticação")))
+            .addSecurityItem(new SecurityRequirement().addList("bearer-jwt"));
     }
 }
